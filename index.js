@@ -23,6 +23,12 @@ async function run() {
   try {
     const tasksCollection = client.db("taskMinder").collection("tasks");
 
+    app.get("/pending-task",async(req,res)=> {
+      const query = {status:"pending"}
+      const result = await tasksCollection.find(query).toArray()
+      res.send(result)
+    })
+
     app.post("/add-task", async(req,res)=> {
       const newTask = req.body
       const result = await tasksCollection.insertOne(newTask)
